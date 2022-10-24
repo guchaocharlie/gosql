@@ -21,7 +21,7 @@ import (
 //todo soft delete
 // var AutoFieldDeletedAt = "deleted_at"
 
-//Session ..
+// Session ..
 type Session struct {
 	v        uint64
 	executor Executor
@@ -30,7 +30,7 @@ type Session struct {
 	ctx      context.Context
 }
 
-//Executor ..
+// Executor ..
 func (s *Session) Executor() (Executor, error) {
 	var err error
 	if s.executor == nil {
@@ -39,7 +39,7 @@ func (s *Session) Executor() (Executor, error) {
 	return s.executor, err
 }
 
-//QueryContext ..
+// QueryContext ..
 func (s *Session) QueryContext(ctx context.Context, query string, args ...interface{}) (*sql.Rows, error) {
 	debugPrint("db: [session #%v] Query %s %v", s.v, query, args)
 	db, err := s.Executor()
@@ -49,26 +49,26 @@ func (s *Session) QueryContext(ctx context.Context, query string, args ...interf
 	return db.QueryContext(ctx, query, args...)
 }
 
-//Query ..
+// Query ..
 func (s *Session) Query(query string, args ...interface{}) (*sql.Rows, error) {
 	return s.QueryContext(s.ctx, query, args...)
 }
 
-//QueryRowContext ..
+// QueryRowContext ..
 func (s *Session) QueryRowContext(ctx context.Context, query string, args ...interface{}) *sql.Row {
 	debugPrint("db: [session #%v] QueryRow %s %v", s.v, query, args)
 	db, _ := s.Executor()
 	return db.QueryRowContext(ctx, query, args...)
 }
 
-//QueryRow ..
+// QueryRow ..
 func (s *Session) QueryRow(query string, args ...interface{}) *sql.Row {
 	debugPrint("db: [session #%v] QueryRow %s %v", s.v, query, args)
 	db, _ := s.Executor()
 	return db.QueryRow(query, args...)
 }
 
-//ExecContext ..
+// ExecContext ..
 func (s *Session) ExecContext(ctx context.Context, query string, args ...interface{}) (sql.Result, error) {
 	debugPrint("db: [session #%v] Exec %s %v", s.v, query, args)
 	db, err := s.Executor()
@@ -78,7 +78,7 @@ func (s *Session) ExecContext(ctx context.Context, query string, args ...interfa
 	return db.ExecContext(ctx, query, args...)
 }
 
-//Exec ..
+// Exec ..
 func (s *Session) Exec(query string, args ...interface{}) (sql.Result, error) {
 	debugPrint("db: [session #%v] Exec %s %v", s.v, query, args)
 	db, err := s.Executor()
@@ -88,7 +88,7 @@ func (s *Session) Exec(query string, args ...interface{}) (sql.Result, error) {
 	return db.Exec(query, args...)
 }
 
-//Fetch ..
+// Fetch ..
 func (s *Session) Fetch(dst interface{}, opts ...Option) error {
 	debugPrint("db: [session #%v] Fetch()", s.v)
 	dstStruct, err := scanner.ResolveModelStruct(dst)
@@ -101,10 +101,11 @@ func (s *Session) Fetch(dst interface{}, opts ...Option) error {
 	if err != nil {
 		return err
 	}
+	rows.Close()g
 	return scanner.Scan(rows, dst)
 }
 
-//FetchAll ..
+// FetchAll ..
 func (s *Session) FetchAll(dst interface{}, opts ...Option) error {
 	debugPrint("db: [session #%v] FetchAll()", s.v)
 	dstStruct, err := scanner.ResolveModelStruct(dst)
@@ -120,7 +121,7 @@ func (s *Session) FetchAll(dst interface{}, opts ...Option) error {
 	return scanner.ScanAll(rows, dst)
 }
 
-//Update ..
+// Update ..
 func (s *Session) Update(dst interface{}, opts ...Option) (Result, error) {
 	debugPrint("db: [session #%v] Update", s.v)
 	dstStruct, err := scanner.ResolveModelStruct(dst)
@@ -168,7 +169,7 @@ func (s *Session) Update(dst interface{}, opts ...Option) (Result, error) {
 	return rst, err
 }
 
-//Insert ..
+// Insert ..
 func (s *Session) Insert(dst interface{}, opts ...Option) (Result, error) {
 	debugPrint("db: [session #%v] Insert", s.v)
 	dstStruct, err := scanner.ResolveModelStruct(dst)
@@ -211,7 +212,7 @@ func (s *Session) Insert(dst interface{}, opts ...Option) (Result, error) {
 	return rst, err
 }
 
-//Replace ..
+// Replace ..
 func (s *Session) Replace(dst interface{}, opts ...Option) (Result, error) {
 	debugPrint("db: [session #%v] Replace", s.v)
 	dstStruct, err := scanner.ResolveModelStruct(dst)
@@ -250,7 +251,7 @@ func (s *Session) Replace(dst interface{}, opts ...Option) (Result, error) {
 	return rst, err
 }
 
-//Delete ..
+// Delete ..
 func (s *Session) Delete(dst interface{}, opts ...Option) (Result, error) {
 	debugPrint("db: [session #%v] Delete", s.v)
 	dstStruct, err := scanner.ResolveModelStruct(dst)
@@ -277,7 +278,7 @@ func (s *Session) Delete(dst interface{}, opts ...Option) (Result, error) {
 	return rst, err
 }
 
-//Commit ..
+// Commit ..
 func (s *Session) Commit() error {
 	debugPrint("db: [session #%v] Commit", s.v)
 	if s.executor == nil {
@@ -286,7 +287,7 @@ func (s *Session) Commit() error {
 	return s.executor.(*sql.Tx).Commit()
 }
 
-//Rollback ..
+// Rollback ..
 func (s *Session) Rollback() error {
 	debugPrint("db: [session #%v] Rollback", s.v)
 	if s.executor == nil {
