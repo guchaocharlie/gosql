@@ -4,16 +4,16 @@ import (
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/rushteam/gosql"
+	"github.com/guchacharlie/gosql"
 )
 
-//UserModel user model
+// UserModel user model
 type UserModel struct {
 	ID   int    `db:"id"`
 	Name string `db:"name"`
 }
 
-//TableName for set table name
+// TableName for set table name
 func (u *UserModel) TableName() string {
 	return "my_user"
 }

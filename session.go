@@ -6,7 +6,7 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/rushteam/gosql/scanner"
+	"github.com/guchacharlie/gosql/scanner"
 )
 
 //AutoFillCreatedAtAndUpdatedAtField 自动更新时间
