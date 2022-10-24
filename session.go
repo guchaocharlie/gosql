@@ -101,7 +101,7 @@ func (s *Session) Fetch(dst interface{}, opts ...Option) error {
 	if err != nil {
 		return err
 	}
-	rows.Close()
+	defer rows.Close()
 	return scanner.Scan(rows, dst)
 }
 
