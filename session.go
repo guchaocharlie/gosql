@@ -6,7 +6,7 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/rushteam/gosql/scanner"
+	"github.com/guchaocharlie/gosql/scanner"
 )
 
 //AutoFillCreatedAtAndUpdatedAtField 自动更新时间
@@ -101,7 +101,7 @@ func (s *Session) Fetch(dst interface{}, opts ...Option) error {
 	if err != nil {
 		return err
 	}
-	rows.Close()g
+	rows.Close()
 	return scanner.Scan(rows, dst)
 }
 
